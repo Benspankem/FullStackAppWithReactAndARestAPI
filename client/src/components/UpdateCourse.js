@@ -36,6 +36,12 @@ export default class UpdateCourse extends Component {
         const password = prompt("Please enter you password to confirm this action");
         const credentials = btoa(`${authUser.emailAddress}:` + password);
 
+        // making sure title and description fields are not empty before updating the course
+        if (this.state.description === '' || this.state.title === '') {
+            this.setState({
+                errors: 'Course and Description are required'
+            })
+        } else {
         axios ({
             method: 'put',
             url: `http://localhost:5000/api/courses/${this.props.match.params.id}`,
@@ -66,6 +72,7 @@ export default class UpdateCourse extends Component {
             }
         })
       }
+    }
     // Retrieving the specific course data 
     componentDidMount() {
         axios.get('http://localhost:5000/api/courses/'+ this.props.match.params.id)
